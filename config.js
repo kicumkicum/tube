@@ -1,27 +1,17 @@
+var path = require('path');
+
+
 /**
+ * @param {Object} config
  * @return {Object}
  */
-module.exports = () => {
+module.exports = function(config) {
 	return {
-		appNamespace: 'tube',
-		servicesAutodetect: [
-			'scenes'
-		],
-		samsung: {
-			widgetConfig: {
-				widget: {
-					mouse: 'n'
-				}
-			}
+		project: {
+			name: 'tt',
+			src: path.resolve(__dirname, 'src'),
+			entry: path.resolve(__dirname, 'src/application.js')
 		},
-		scripts: [
-			// 'script.js'
-		],
-		styles: [
-			//'myStyle.css'
-		],
-		modules: [
-			//'some-nodejs-zb-module'
-		]
+    platforms: {},
 	};
 };
