@@ -1,12 +1,11 @@
-goog.provide('tube.scenes.CategoryList');
-goog.require('tube.scenes.AbstractList');
+import AbstractList from '../abstract-list/abstract-list';
 
 
-tube.scenes.CategoryList = class extends tube.scenes.AbstractList {
+export default class CategoryList extends AbstractList {
 	/**
 	 */
-	constructor() {
-		super();
+	constructor(app) {
+		super(app);
 
 		this._addContainerClass('s-category-list');
 

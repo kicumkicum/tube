@@ -1,24 +1,23 @@
-goog.provide('tube.api.IVideo');
-goog.require('tube.models.Category');
-goog.require('tube.models.Video');
+import Category from '../models/category';
+import Video from '../models/video';
 
 
 /**
  * @interface
  */
-tube.api.IVideo = class {
+export default class IVideo {
 	/**
 	 * @param {number} offset
 	 * @param {number} limit
-	 * @return {IThenable<Array<tube.models.Category>>}
+	 * @return {IThenable<Array<Category>>}
 	 */
 	getCategoryList(offset, limit) {}
 
 	/**
-	 * @param {tube.models.Category} category
+	 * @param {Category} category
 	 * @param {number} offset
 	 * @param {number} limit
-	 * @return {IThenable<Array<tube.models.Video>>}
+	 * @return {IThenable<Array<Video>>}
 	 */
 	getVideoList(category, offset, limit) {}
 };

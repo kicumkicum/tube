@@ -1,12 +1,11 @@
-goog.provide('tube.scenes.VideoList');
-goog.require('tube.scenes.AbstractList');
+import AbstractList from '../abstract-list/abstract-list';
 
 
-tube.scenes.VideoList = class extends tube.scenes.AbstractList {
+export default class VideoList extends AbstractList {
 	/**
 	 */
-	constructor() {
-		super();
+	constructor(app) {
+		super(app);
 
 		this._addContainerClass('s-video-list');
 

@@ -1,14 +1,13 @@
-goog.provide('tube.services.AbstractPlayer');
-goog.require('zb.device.IVideo');
-goog.require('zb.events.EventPublisher');
+import IVideo from 'zb/device/interfaces/i-video';
+import EventPublisher from 'zb/events/event-publisher';
 
 
 /**
- * @implements {zb.device.IVideo}
+ * @implements {IVideo}
  */
-tube.services.AbstractPlayer = class extends zb.events.EventPublisher {
+export default class AbstractPlayer extends EventPublisher {
 	/**
-	 * @param {zb.device.IVideo} player
+	 * @param {IVideo} player
 	 */
 	constructor(player) {
 		super();
@@ -79,7 +78,7 @@ tube.services.AbstractPlayer = class extends zb.events.EventPublisher {
 		this.EVENT_STATE_CHANGE = 'state-change';
 
 		/**
-		 * @type {zb.device.IVideo}
+		 * @type {IVideo}
 		 * @private
 		 */
 		this._player = player;
@@ -361,8 +360,8 @@ tube.services.AbstractPlayer = class extends zb.events.EventPublisher {
 
 	/**
 	 * @param {string} eventName
-	 * @param {zb.device.IVideo.State} newState
-	 * @param {zb.device.IVideo.State} oldState
+	 * @param {IVideo.State} newState
+	 * @param {IVideo.State} oldState
 	 * @private
 	 */
 	_onStateChange(eventName, newState, oldState) {

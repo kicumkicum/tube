@@ -1,8 +1,9 @@
-{{$ tube.popups.templates.simple.simple }}
+{{+ import HelpBar from "ui/widgets/button/button"; }}
+{{+ import Simple from "tt/popups/simple/simple"; }}
 
 {{* this.title Array<string> }}
 {{* this.message (Array<string>|undefined) }}
-{{* this.buttons Array<tube.popups.Simple.Button> }}
+{{* this.buttons Array<Simple.Button> }}
 
 <div class="zb-center">
 	<div class="zb-center__cell">
@@ -28,7 +29,7 @@
 			<div class="p-simple__foot">
 				<div class="p-simple__buttons">
 					{{ this.buttons.forEach((button) => { }}
-						<div data-component="{{% zb.ui.widgets.Button, {status: button.status}, buttons[] }}">
+						<div data-component="{{% Button, {status: button.status}, buttons[] }}">
 							{{- button.title }}
 						</div>
 					{{ }); }}

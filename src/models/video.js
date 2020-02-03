@@ -1,10 +1,7 @@
-goog.provide('tube.models.Video');
-
-
-tube.models.Video = class {
+export default class Video {
 	/**
-	 * @param {tube.models.Video.Data} data
-	 * @param {tube.models.Video.ExtendFunction} extendFunction
+	 * @param {Video.Data} data
+	 * @param {Video.ExtendFunction} extendFunction
 	 */
 	constructor(data, extendFunction) {
 		/**
@@ -20,7 +17,7 @@ tube.models.Video = class {
 		/**
 		 * @type {string}
 		 */
-		this.coverUrl = data.coverUrl;
+		this.coverUrl = data.coverUrl.replace(`w500`, `w300`);
 
 		/**
 		 * @type {number|undefined}
@@ -38,7 +35,7 @@ tube.models.Video = class {
 		this.videoUrl;
 
 		/**
-		 * @type {tube.models.Video.ExtendFunction}
+		 * @type {Video.ExtendFunction}
 		 * @private
 		 */
 		this._extendFunction = extendFunction;
@@ -53,7 +50,7 @@ tube.models.Video = class {
 	}
 
 	/**
-	 * @return {IThenable<tube.models.Video>}
+	 * @return {IThenable<Video>}
 	 */
 	extend() {
 		if (!this._extendPromise) {
@@ -71,22 +68,22 @@ tube.models.Video = class {
 
 
 /**
- * @param {tube.models.Video.Data} data
- * @param {tube.models.Video.ExtendFunction} extendFunction
- * @return {tube.models.Video}
+ * @param {Video.Data} data
+ * @param {Video.ExtendFunction} extendFunction
+ * @return {Video}
  */
-tube.models.Video.fromData = function(data, extendFunction) {
-	return new tube.models.Video(data, extendFunction);
+Video.fromData = function(data, extendFunction) {
+	return new Video(data, extendFunction);
 };
 
 
 /**
- * @param {Array<tube.models.Video.Data>} dataArray
- * @param {tube.models.Video.ExtendFunction} extendFunction
- * @return {Array<tube.models.Video>}
+ * @param {Array<Video.Data>} dataArray
+ * @param {Video.ExtendFunction} extendFunction
+ * @return {Array<Video>}
  */
-tube.models.Video.fromDataArray = function(dataArray, extendFunction) {
-	return dataArray.map((data) => tube.models.Video.fromData(data, extendFunction));
+Video.fromDataArray = function(dataArray, extendFunction) {
+	return dataArray.map((data) => Video.fromData(data, extendFunction));
 };
 
 
@@ -99,7 +96,7 @@ tube.models.Video.fromDataArray = function(dataArray, extendFunction) {
  *     views: (number|undefined)
  * }}
  */
-tube.models.Video.Data;
+Video.Data;
 
 
 /**
@@ -107,4 +104,4 @@ tube.models.Video.Data;
  *     videoUrl: string
  * }>}
  */
-tube.models.Video.ExtendFunction;
+Video.ExtendFunction;

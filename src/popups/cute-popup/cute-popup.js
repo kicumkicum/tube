@@ -1,8 +1,7 @@
-goog.provide('tube.popups.CutePopup');
-goog.require('zb.layers.Popup');
+import Popup from 'zb/layers/popup';
 
 
-tube.popups.CutePopup = class extends zb.layers.Popup {
+export default class CutePopup extends Popup {
 	/**
 	 * @override
 	 */

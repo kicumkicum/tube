@@ -1,21 +1,19 @@
-goog.provide('tube.services.Player');
-goog.require('tube.services.AbstractPlayer');
-goog.require('zb.device.IDevice');
-goog.require('zb.device.IVideo');
-goog.require('zb.device.IViewPort');
-goog.require('zb.device.aspectRatio.AspectRatio');
-goog.require('zb.device.aspectRatio.Proportion');
-goog.require('zb.device.aspectRatio.Transferring');
-goog.require('zb.device.input.Keys');
+import AbstractPlayer from './abstract-player';
+import 'zb/device/interfaces/i-device';
+import IVideo from 'zb/device/interfaces/i-video';
+import IViewPort from 'zb/device/interfaces/i-view-port';
+import {AspectRatio, Transferring} from 'zb/device/aspect-ratio/aspect-ratio';
+import {Common} from 'zb/device/aspect-ratio/proportion';
+import Keys from 'zb/device/input/keys';
+import Rect from 'zb/geometry/rect';
 
-
-tube.services.Player = class extends tube.services.AbstractPlayer {
+export default class Player extends AbstractPlayer {
 	/**
 	 * @param {tube.Application} app
 	 * @param {zb.device.IDevice} device
 	 */
 	constructor(app, device) {
-		const player = device.createVideo();
+		const player = device.createVideo(Rect.createByClientRect(app.getBody().getBoundingClientRect()));
 		super(player);
 
 		/**
@@ -73,7 +71,7 @@ tube.services.Player = class extends tube.services.AbstractPlayer {
 	 * @return {boolean}
 	 */
 	processKey(zbKey, opt_e) {
-		const keys = zb.device.input.Keys;
+		const keys = Keys;
 
 		switch (zbKey) {
 			case keys.PLAY:
@@ -96,12 +94,12 @@ tube.services.Player = class extends tube.services.AbstractPlayer {
 	 */
 	togglePlayPause() {
 		switch (this.getState()) {
-			case zb.device.IVideo.State.PAUSED:
-			case zb.device.IVideo.State.STOPPED:
+			case IVideo.State.PAUSED:
+			case IVideo.State.STOPPED:
 				this.resume();
 				break;
-			case zb.device.IVideo.State.PLAYING:
-			case zb.device.IVideo.State.SEEKING:
+			case IVideo.State.PLAYING:
+			case IVideo.State.SEEKING:
 				this.pause();
 				break;
 		}
@@ -120,14 +118,13 @@ tube.services.Player = class extends tube.services.AbstractPlayer {
 	 * @private
 	 */
 	_createAspectRatioList() {
-		const Proportion = zb.device.aspectRatio.Proportion.Common;
-		const Transferring = zb.device.aspectRatio.Transferring;
+		const Proportion = Common;
 
 		return [
-				new zb.device.aspectRatio.AspectRatio(Proportion.AUTO, Transferring.LETTERBOX),
-				new zb.device.aspectRatio.AspectRatio(Proportion.AUTO, Transferring.STRETCH),
-				new zb.device.aspectRatio.AspectRatio(Proportion.X16X9, Transferring.LETTERBOX),
-				new zb.device.aspectRatio.AspectRatio(Proportion.X4X3, Transferring.LETTERBOX)
+				new AspectRatio(Proportion.AUTO, Transferring.LETTERBOX),
+				new AspectRatio(Proportion.AUTO, Transferring.STRETCH),
+				new AspectRatio(Proportion.X16X9, Transferring.LETTERBOX),
+				new AspectRatio(Proportion.X4X3, Transferring.LETTERBOX)
 			]
 			.filter((ratio) => this._viewport.isAspectRatioSupported(ratio));
 	}

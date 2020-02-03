@@ -1,12 +1,10 @@
-goog.provide('tube.widgets.PlayerProgress');
-goog.require('tube.widgets.templates.playerProgress.PlayerProgressOut');
-goog.require('tube.widgets.templates.playerProgress.playerProgress');
-goog.require('zb.device.input.Keys');
-goog.require('zb.ui.widgets.PlayerProgress');
-goog.require('zb.ui.limit');
+import {In, Out, render} from 'generated/cutejs/tt/widgets/player-progress/player-progress.jst';
+import Keys from 'zb/device/input/keys';
+import BasePlayerProgress from 'ui/widgets/player-progress/player-progress';
+import * as limit from 'ui/limit';
 
 
-tube.widgets.PlayerProgress = class extends zb.ui.widgets.PlayerProgress {
+export default class PlayerProgress extends BasePlayerProgress {
 	/**
 	 * @override
 	 */
@@ -59,7 +57,7 @@ tube.widgets.PlayerProgress = class extends zb.ui.widgets.PlayerProgress {
 		 */
 		this._seekPosition = NaN;
 
-		this._setPositionDebounced = zb.ui.limit.debounce(
+		this._setPositionDebounced = limit.debounce(
 			this._setPositionDebounced.bind(this),
 			this.SET_POSITION_DEBOUNCE
 		);
@@ -140,7 +138,7 @@ tube.widgets.PlayerProgress = class extends zb.ui.widgets.PlayerProgress {
 	 */
 	_processKey(zbKey, opt_e) {
 		let isHandled = false;
-		const keys = zb.device.input.Keys;
+		const keys = Keys;
 
 		switch (zbKey) {
 			case keys.LEFT:
@@ -158,7 +156,7 @@ tube.widgets.PlayerProgress = class extends zb.ui.widgets.PlayerProgress {
 	 * @override
 	 */
 	_renderTemplate() {
-		return tube.widgets.templates.playerProgress.playerProgress(
+		return render(
 			this._getTemplateData(),
 			this._getTemplateOptions()
 		);

@@ -1,23 +1,20 @@
-goog.provide('tube.services.Navigation');
-goog.require('tube.models.Category');
-goog.require('tube.models.Video');
-goog.require('tube.scenes.CategoryList');
-goog.require('tube.scenes.Player');
-goog.require('tube.scenes.VideoList');
-goog.require('zb.LayerManager');
-goog.require('zb.SceneOpener');
-goog.require('zb.ui.data.DynamicList');
-goog.require('zb.ui.widgets.Throbber');
+import Category from '../models/category';
+import Video from '../models/video';
+import LayerManager from 'zb/layer-manager';
+import SceneOpener from 'zb/scene-opener';
+import DynamicList from 'ui/data/dynamic-list';
+import Throbber from 'ui/widgets/throbber/throbber';
 
 
-tube.services.Navigation = class {
+export default class Navigation {
 	/**
 	 * @param {tube.services.Navigation.Scenes} scenes
 	 * @param {zb.SceneOpener} opener
 	 * @param {zb.LayerManager} layerManager
 	 * @param {zb.ui.widgets.Throbber} throbber
 	 */
-	constructor(scenes, opener, layerManager, throbber) {
+	constructor(scenes, opener, layerManager, throbber, app) {
+		this._app = app;
 		/**
 		 * @type {tube.services.Navigation.Scenes}
 		 * @private
@@ -56,15 +53,15 @@ tube.services.Navigation = class {
 	}
 
 	/**
-	 * @param {tube.models.Category} category
+	 * @param {Category} category
 	 * @return {IThenable}
 	 */
 	openVideoList(category) {
-		const dataList = new zb.ui.data.DynamicList(
+		const dataList = new DynamicList(
 			(from, to) => {
 				const offset = from;
 				const limit = to - from + 1;
-				return app.api.video.getVideoList(category, offset, limit);
+				return this._app.api.popcorn.getVideoList(category, offset, limit);
 			}, {
 				startFrom: 0,
 				startLoadingOnItemsLeft: 10,
@@ -91,11 +88,11 @@ tube.services.Navigation = class {
 	 * @return {IThenable}
 	 */
 	openCategoryList() {
-		const dataList = new zb.ui.data.DynamicList(
+		const dataList = new DynamicList(
 			(from, to) => {
 				const offset = from;
 				const limit = to - from;
-				return app.api.video.getCategoryList(offset, limit);
+				return this._app.api.popcorn.getCategoryList(offset, limit);
 			}, {
 				startFrom: 0,
 				startLoadingOnItemsLeft: 10,
@@ -118,7 +115,7 @@ tube.services.Navigation = class {
 	}
 
 	/**
-	 * @param {tube.models.Video} video
+	 * @param {Video} video
 	 * @return {IThenable}
 	 */
 	openPlayer(video) {
@@ -161,4 +158,4 @@ tube.services.Navigation = class {
  *     player: tube.scenes.Player
  * }}
  */
-tube.services.Navigation.Scenes;
+Navigation.Scenes;

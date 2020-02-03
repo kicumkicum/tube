@@ -1,22 +1,21 @@
-goog.provide('tube.api.common.Video');
-goog.require('tube.api.IVideo');
-goog.require('tube.api.common.Transport');
-goog.require('tube.models.Category');
-goog.require('tube.models.Video');
+import IVideo from '../i-video';
+import Transport from './transport';
+import Category from '../../models/category';
+import Video from '../../models/video';
 
 
 /**
- * @implements {tube.api.IVideo}
+ * @implements {IVideo}
  */
-tube.api.common.Video = class {
+export default class VideoApi {
 	/**
 	 */
 	constructor() {
 		/**
-		 * @type {tube.api.common.Transport}
+		 * @type {Transport}
 		 * @private
 		 */
-		this._transport = new tube.api.common.Transport();
+		this._transport = new Transport();
 	}
 
 	/**
@@ -34,7 +33,7 @@ tube.api.common.Video = class {
 					items = response['response']['items'];
 				}
 
-				return items.map((category) => tube.models.Category.fromData({
+				return items.map((category) => Category.fromData({
 					id: category['id'],
 					title: category['title'],
 					coverUrl: category['coverUrl']
@@ -60,7 +59,7 @@ tube.api.common.Video = class {
 
 				return items.map((video) => {
 					const videoUrl = video['videoUrl'];
-					return tube.models.Video.fromData({
+					return Video.fromData({
 						id: video['id'],
 						title: video['title'],
 						coverUrl: video['coverUrl'],

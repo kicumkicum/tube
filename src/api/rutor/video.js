@@ -6,7 +6,7 @@ import Video from '../../models/video'
 /**
  * @implements {tube.api.IVideo}
  */
-export default class PopcornVideo {
+export default class RutorVideo {
 	/**
 	 */
 	constructor() {
@@ -30,6 +30,10 @@ export default class PopcornVideo {
 		if (this._categoryList.length) {
 			return /** @type {IThenable<Array<Category>>} */ (Promise.resolve(this._categoryList));
 		}
+
+
+		this._transport.requestRaw(`categories/`)
+			.then((body) => console.log(body));
 
 		const categoryArray = [
 			'action',
@@ -82,6 +86,7 @@ export default class PopcornVideo {
 	 * @override
 	 */
 	getVideoList(category, offset, limit) {
+		debugger
 		const PAGE_SIZE = 50;
 		const pageOffset = Math.floor(offset / PAGE_SIZE);
 		const pageLimit = Math.ceil((offset + limit) / PAGE_SIZE) - pageOffset;
@@ -103,15 +108,16 @@ export default class PopcornVideo {
 				.map((video) => {
 					const videoMagnet = this._getVideoMagnet(video['torrents']);
 					const extendFunction = () => {
-            return Promise.resolve()
-              .then(() => {
+						debugger
+						return Promise.resolve()
+							.then(() => {
                 return this._transport
                   .request(`rutor/search/${video.title}`)
                   .then((items) => {
                     return items[0].src;
                   });
-              })
-              .then((videoMagnet) => this._getVideoUrl(videoMagnet))
+							})
+							.then((videoMagnet) => this._getVideoUrl(videoMagnet))
 							.then((videoUrl) => ({
 								videoUrl: videoUrl
 							}));
@@ -120,7 +126,7 @@ export default class PopcornVideo {
 					return Video.fromData({
 						id: video['_id'],
 						title: video['title'],
-						coverUrl: (video['images'] && video['images']['poster']) || ``
+						coverUrl: (video['images'] && video['images']['poster']) || undefined
 					}, extendFunction);
 				});
 		});
@@ -135,7 +141,7 @@ export default class PopcornVideo {
 	_getVideoListPage(page, categoryId) {
 		return this._transport
 			.request(`popcorn/movies/${page}`, {
-				'sort': 'last added',
+				// 'sort': 'last added',
 				// 'order': 1,
 				'genre': categoryId
 			})
@@ -182,7 +188,7 @@ export default class PopcornVideo {
       .request(`getMetadata/${hash}`)
       .then((response) => {
         const files = response['files'];
-        const file = files.find((it) => it.path.endsWith(`.mp4`) || it.path.endsWith(`.mkv`));
+        const file = files.find((it) => it.path.endsWith(`.mp4`));
         if (!file) {
         	return Promise.reject();
 				}

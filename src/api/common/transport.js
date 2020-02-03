@@ -1,9 +1,8 @@
-goog.provide('tube.api.common.Transport');
-goog.require('zb.http');
-goog.require('zb.xhr.simple');
+import * as http from 'zb/http/http';
+import * as xhr from 'zb/http/xhr';
 
 
-tube.api.common.Transport = class {
+export default class Transport {
 	/**
 	 */
 	constructor() {
@@ -22,8 +21,21 @@ tube.api.common.Transport = class {
 	request(action, query) {
 		const url = this._baseUrl + action;
 
-		return zb.xhr.simple
-			.send(zb.http.Method.GET, url, query, {})
-			.then((xhr) => JSON.parse(xhr.responseText));
+		return xhr
+			.send(url, {method: http.Method.GET, query})
+			.then((xhr) => JSON.parse(xhr.responseText))
+			.catch(() => {
+        const a = new Array(10).fill(``).map((it, i) => {
+          return {
+            title: `11-${i}-HOHOHO`,
+            type: 'video',
+          };
+        });
+				return {
+					'response': {
+						'items': a
+					}
+				};
+			});
 	}
 };

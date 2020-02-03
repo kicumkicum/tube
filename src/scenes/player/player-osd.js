@@ -1,14 +1,13 @@
-goog.provide('tube.scenes.PlayerOsd');
-goog.require('tube.services.Player');
-goog.require('tube.services.StateManager');
-goog.require('tube.widgets.PlayerProgress');
-goog.require('zb.Timeout');
-goog.require('zb.device.IVideo');
-goog.require('zb.device.input.Keys');
-goog.require('zb.events.EventPublisher');
+import Player from '../../services/player';
+import StateManager from '../../services/state-manager';
+import PlayerProgress from '../../widgets/player-progress/player-progress';
+import Timeout from 'zb/timeout';
+import IVideo from 'zb/device/interfaces/i-video';
+import Keys from 'zb/device/input/keys';
+import EventPublisher from 'zb/events/event-publisher';
 
 
-tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
+export default class PlayerOsd extends EventPublisher {
 	/**
 	 * @override
 	 * @param {tube.scenes.PlayerOsd.ItemMap} itemMap
@@ -38,7 +37,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 		 * @type {zb.Timeout}
 		 * @private
 		 */
-		this._controlsTimer = new zb.Timeout(this.hideControls.bind(this), this.CONTROLS_SHOW_TIME);
+		this._controlsTimer = new Timeout(this.hideControls.bind(this), this.CONTROLS_SHOW_TIME);
 
 		/**
 		 * @type {?tube.services.Player}
@@ -68,7 +67,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	 * @return {boolean} True if Key handled, false if not
 	 */
 	processKey(zbKey, opt_e) {
-		const keys = zb.device.input.Keys;
+		const keys = Keys;
 
 		if (this._isControlsVisible() || this._isEmpty()) {
 			const isEnter = zbKey === keys.ENTER;
@@ -112,12 +111,12 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	 */
 	showControls() {
 		switch (this._getPlayerState()) {
-			case zb.device.IVideo.State.INITED:
-			case zb.device.IVideo.State.UNINITED:
-			case zb.device.IVideo.State.DEINITED:
-			case zb.device.IVideo.State.PAUSED:
-			case zb.device.IVideo.State.STOPPED:
-			case zb.device.IVideo.State.ERROR:
+			case IVideo.State.INITED:
+			case IVideo.State.UNINITED:
+			case IVideo.State.DEINITED:
+			case IVideo.State.PAUSED:
+			case IVideo.State.STOPPED:
+			case IVideo.State.ERROR:
 			case null:
 				this._controlsTimer.stop();
 				break;
@@ -126,7 +125,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 				break;
 		}
 
-		this._setState(tube.scenes.PlayerOsd.State.CONTROLS);
+		this._setState(PlayerOsd.State.CONTROLS);
 	}
 
 	/**
@@ -143,9 +142,9 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	_createStateManager(itemMap) {
 		const itemList = Object.keys(itemMap).map((key) => itemMap[key]);
 
-		const stateManager = new tube.services.StateManager(itemList);
+		const stateManager = new StateManager(itemList);
 
-		stateManager.registerState(tube.scenes.PlayerOsd.State.CONTROLS, [
+		stateManager.registerState(PlayerOsd.State.CONTROLS, [
 			itemMap.title,
 			itemMap.shadow,
 			itemMap.progress,
@@ -166,8 +165,8 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 			return;
 		}
 
-		this._stateManager.setState(newState);
-		this._fireEvent(this.EVENT_STATE_CHANGED, newState, oldState);
+    this._stateManager.setState(newState);
+    this._fireEvent(this.EVENT_STATE_CHANGED, newState, oldState);
 	}
 
 	/**
@@ -175,7 +174,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	 * @private
 	 */
 	_isControlsVisible() {
-		return this._stateManager.getState() === tube.scenes.PlayerOsd.State.CONTROLS;
+		return this._stateManager.getState() === PlayerOsd.State.CONTROLS;
 	}
 
 	/**
@@ -199,13 +198,13 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	 */
 	_onPlayerStateChange() {
 		switch (this._getPlayerState()) {
-			case zb.device.IVideo.State.INITED:
-			case zb.device.IVideo.State.UNINITED:
-			case zb.device.IVideo.State.DEINITED:
-			case zb.device.IVideo.State.PLAYING:
-			case zb.device.IVideo.State.PAUSED:
-			case zb.device.IVideo.State.STOPPED:
-			case zb.device.IVideo.State.ERROR:
+			case IVideo.State.INITED:
+			case IVideo.State.UNINITED:
+			case IVideo.State.DEINITED:
+			case IVideo.State.PLAYING:
+			case IVideo.State.PAUSED:
+			case IVideo.State.STOPPED:
+			case IVideo.State.ERROR:
 				if (this._isControlsVisible() || this._isEmpty()) {
 					this.showControls();
 				}
@@ -220,7 +219,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 	 * @private
 	 */
 	_onOsdStateChanged(eventName, newState, oldState) {
-		if (oldState === tube.scenes.PlayerOsd.State.CONTROLS) {
+		if (oldState === PlayerOsd.State.CONTROLS) {
 			this._controlsTimer.stop();
 		}
 	}
@@ -230,7 +229,7 @@ tube.scenes.PlayerOsd = class extends zb.events.EventPublisher {
 /**
  * @enum {string}
  */
-tube.scenes.PlayerOsd.State = {
+PlayerOsd.State = {
 	CONTROLS: 'controls'
 };
 
@@ -243,4 +242,4 @@ tube.scenes.PlayerOsd.State = {
  *     helpBar: HTMLElement
  * }}
  */
-tube.scenes.PlayerOsd.ItemMap;
+PlayerOsd.ItemMap;

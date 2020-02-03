@@ -1,9 +1,10 @@
-{{$ tube.scenes.templates.player.player }}
+{{+ import HelpBar from "ui/widgets/help-bar/help-bar"; }}
+{{+ import PlayerProgress from "tt/widgets/player-progress/player-progress"; }}
 
 <div class="s-player__title" data-export-id="{{@title}}"></div>
 <div class="s-player__shadow" data-export-id="{{@shadow}}">
 	<div class="s-player__controls">
-		{{% tube.widgets.PlayerProgress, {}, progress }}
-		{{% zb.ui.widgets.HelpBar, {}, helpBar }}
+		{{% PlayerProgress, {}, progress }}
+		{{% HelpBar, {}, helpBar }}
 	</div>
 </div>

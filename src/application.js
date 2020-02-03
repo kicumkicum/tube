@@ -1,107 +1,96 @@
-goog.provide('tube.Application');
-goog.require('tube.BaseApplication');
-goog.require('tube.api');
-goog.require('tube.api.IVideo');
-goog.require('tube.services.Navigation');
-goog.require('tube.services.Player');
-goog.require('zb.console');
-goog.require('zb.console.Level');
-goog.require('zb.device.platforms.samsung.Device');
-goog.require('zb.html');
-goog.require('zb.ui.widgets.Throbber');
+import BaseApplication from 'generated/base-application';
+import VideoList from './scenes/video-list/video-list';
+import CategoryList from './scenes/category-list/category-list';
+import Player from './scenes/player/player';
+import PlayerService from './services/player';
+import Navigation from './services/navigation';
+import api from './api/api';
+import * as html from 'zb/html';
+import Throbber from 'ui/widgets/throbber/throbber';
 
 
-tube.Application = class extends tube.BaseApplication {
+/**
+ */
+export default class Application extends BaseApplication {
 	/**
 	 */
 	constructor() {
-		zb.console.setLevel(zb.console.Level.LOG);
-
 		super();
 
-		/**
-		 * @type {{
-		 *     video: tube.api.IVideo
-		 * }}
-		 */
-		this.api = {
-			video: tube.api.video
-		};
+    this.api = {
+      video: api.video,
+      popcorn: api.popcorn,
+    };
 
-		/**
-		 * @type {{
-		 *     navigation: tube.services.Navigation,
-		 *     player: tube.services.Player,
-		 *     throbber: zb.ui.widgets.Throbber
-		 * }}
-		 */
-		this.services;
+    window.app = this;
 	}
 
 	/**
 	 * @override
 	 */
 	onReady() {
-		super.onReady();
+    super.onReady();
 
-		if (this.isDeviceSamsung()) {
-			const samsungDevice = /** @type {zb.device.platforms.samsung.Device} */ (this.device);
-			samsungDevice.enableVolumeOSD(true);
-		}
+    this.addScene(new CategoryList(this), 'category-list');
+    this.addScene(new VideoList(this), 'video-list');
+    this.addScene(new Player(this), 'player');
 
-		const throbber = this._createThrobber();
-		const sceneOpener = this.getSceneOpener();
-		const navigation = new tube.services.Navigation({
-			categoryList: this.sc.scenesCategoryList,
-			videoList: this.sc.scenesVideoList,
-			player: this.sc.scenesPlayer
-		}, sceneOpener, this._layerManager, throbber);
+    const throbber = this._createThrobber();
+    const sceneOpener = this.getSceneOpener();
 
-		this.services = {
-			navigation: navigation,
-			player: new tube.services.Player(this, this.device),
-			throbber: throbber
-		};
-	}
+    const navigation = new Navigation({
+      categoryList: this._layerManager.getLayer(`category-list`),
+      videoList: this._layerManager.getLayer(`video-list`),
+      player: this._layerManager.getLayer(`player`)
+    }, sceneOpener, this._layerManager,  throbber, this);
 
-	/**
-	 * @override
-	 */
-	onStart(launchParams) {
-		super.onStart(launchParams);
+    this.services = {
+      navigation: navigation,
+      player: new PlayerService(this, this.device),
+      throbber: throbber
+    };
 
-		this.home();
-	}
+  }
 
 	/**
 	 * @override
 	 */
 	home() {
-		return this.services.navigation.openHome();
+		this.clearHistory();
+		const homeScene = this.getLayerManager().getLayer('category-list');
+
+    return this.services.navigation.openCategoryList();
+
+		return this.getSceneOpener().open(homeScene, () => {
+			// Set home scene data here
+		});
 	}
 
 	/**
-	 * @return {zb.ui.widgets.Throbber}
-	 * @private
+	 * @override
 	 */
-	_createThrobber() {
-		const throbberContainer = zb.html.div('a-throbber zb-fullscreen');
-		const throbber = new zb.ui.widgets.Throbber({
-			step: 58,
-			width: 1392
-		});
-
-		throbberContainer.appendChild(throbber.getContainer());
-		this._body.appendChild(throbberContainer);
-
-		throbber.on(throbber.EVENT_START, () => {
-			zb.html.show(throbberContainer);
-		});
-
-		throbber.on(throbber.EVENT_STOP, () => {
-			zb.html.hide(throbberContainer);
-		});
-
-		return throbber;
+	onStart() {
+		this.home();
 	}
-};
+
+  _createThrobber() {
+    const throbberContainer = html.div('a-throbber zb-fullscreen');
+    const throbber = new Throbber({
+      step: 58,
+      width: 1392
+    });
+
+    throbberContainer.appendChild(throbber.getContainer());
+    this._body.appendChild(throbberContainer);
+
+    throbber.on(throbber.EVENT_START, () => {
+      html.show(throbberContainer);
+    });
+
+    throbber.on(throbber.EVENT_STOP, () => {
+      html.hide(throbberContainer);
+    });
+
+    return throbber;
+  }
+}

@@ -1,9 +1,7 @@
-goog.provide('tube.popups.Base');
-goog.require('tube.popups.CutePopup');
-goog.require('zb.device.input.Keys');
+import Keys from 'zb/device/input/keys';
+import CutePopup from '../cute-popup/cute-popup';
 
-
-tube.popups.Base = class extends tube.popups.CutePopup {
+export default class Base extends CutePopup {
 	/**
 	 * @override
 	 */
@@ -33,7 +31,7 @@ tube.popups.Base = class extends tube.popups.CutePopup {
 	 * @override
 	 */
 	_processKey(zbKey, e) {
-		if (zbKey === zb.device.input.Keys.BACK) {
+		if (zbKey === Keys.BACK) {
 			this.close(tube.popups.Base.Status.CANCELLED);
 			return true;
 		}
@@ -73,7 +71,7 @@ tube.popups.Base = class extends tube.popups.CutePopup {
 /**
  * @enum {string}
  */
-tube.popups.Base.Status = {
+Base.Status = {
 	SUCCEEDED: 'succeeded',
 	FAILED: 'failed',
 	CANCELLED: 'cancelled'
@@ -83,4 +81,4 @@ tube.popups.Base.Status = {
 /**
  * @typedef {function(*, function(*), function(*))}
  */
-tube.popups.Base.StatusHandler;
+Base.StatusHandler;

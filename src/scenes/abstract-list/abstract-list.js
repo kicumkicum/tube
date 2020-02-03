@@ -1,25 +1,24 @@
-goog.provide('tube.scenes.AbstractList');
-goog.require('tube.scenes.templates.abstractList.AbstractListOut');
-goog.require('tube.scenes.templates.abstractList.abstractList');
-goog.require('tube.widgets.helpBarItemFactory');
-goog.require('zb.html');
-goog.require('zb.layers.CuteScene');
-goog.require('zb.ui.data.DynamicList');
+import AbstractCuteScene from 'cutejs/layers/abstract-scene';
+import {In, Out, render} from 'generated/cutejs/tt/scenes/abstract-list/abstract-list.jst';
+// import 'tube.widgets.helpBarItemFactory';
+import * as html from 'zb/html';
+import DynamicList from 'ui/data/dynamic-list';
+import {helpBarItemFactory} from '../../widgets/help-bar/help-bar-item-factory';
 
 
 /**
  * @abstract
  */
-tube.scenes.AbstractList = class extends zb.layers.CuteScene {
+export default class AbstractList extends AbstractCuteScene {
 	/**
 	 */
-	constructor() {
+	constructor(app) {
 		super();
 
 		this._addContainerClass('s-abstract-list');
 
 		/**
-		 * @type {tube.scenes.templates.abstractList.AbstractListOut}
+		 * @type {Out}
 		 * @protected
 		 */
 		this._exported;
@@ -36,9 +35,11 @@ tube.scenes.AbstractList = class extends zb.layers.CuteScene {
 		 */
 		this._dataList = null;
 
+		this._app = app;
+
 		this._createHelpBar();
 
-		this.setDefaultWidget(this._exported.list);
+		this.setDefaultWidget(this._exported.helpBar);
 	}
 
 	/**
@@ -56,7 +57,7 @@ tube.scenes.AbstractList = class extends zb.layers.CuteScene {
 	 */
 	setTitle(title) {
 		this._title = title;
-		zb.html.text(this._exported.title, title);
+		html.text(this._exported.title, title);
 	}
 
 	/**
@@ -72,7 +73,7 @@ tube.scenes.AbstractList = class extends zb.layers.CuteScene {
 	 * @override
 	 */
 	_renderTemplate() {
-		return tube.scenes.templates.abstractList.abstractList(this._getTemplateData(), this._getTemplateOptions());
+		return render(this._getTemplateData(), this._getTemplateOptions());
 	}
 
 	/**
@@ -80,10 +81,10 @@ tube.scenes.AbstractList = class extends zb.layers.CuteScene {
 	 */
 	_createHelpBar() {
 		this._exported.helpBar.setItems([
-			tube.widgets.helpBarItemFactory.red('Home', () => {
-				app.services.navigation.openHome();
+			helpBarItemFactory.red('Home', () => {
+				this._app.services.navigation.openHome();
 			}),
-			tube.widgets.helpBarItemFactory.back('Back')
+			helpBarItemFactory.back('Back')
 		]);
 	}
 };

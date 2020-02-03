@@ -1,9 +1,8 @@
-goog.provide('tube.services.StateManager');
-goog.require('zb.html');
-goog.require('zb.widgets.Widget');
+import * as html from 'zb/html';
+import Widget from 'zb/widgets/widget';
 
 
-tube.services.StateManager = class {
+export default class StateManager {
 	/**
 	 * @param {Array<tube.services.StateManager.Item>} itemList
 	 */
@@ -72,16 +71,16 @@ tube.services.StateManager = class {
 	 * @private
 	 */
 	_setItemVisible(item, isItemVisible) {
-		if (item instanceof zb.widgets.Widget) {
+		if (item instanceof Widget) {
 			item.setVisible(isItemVisible);
 		} else if (item instanceof HTMLElement) {
-			zb.html.showHide(item, isItemVisible);
+			html.showHide(item, isItemVisible);
 		}
 	}
 };
 
 
 /**
- * @typedef {HTMLElement|zb.widgets.Widget}
+ * @typedef {HTMLElement|Widget}
  */
-tube.services.StateManager.Item;
+StateManager.Item;

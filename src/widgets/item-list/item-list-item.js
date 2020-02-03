@@ -1,19 +1,18 @@
-goog.provide('tube.widgets.ItemListItem');
-goog.require('tube.models.Category');
-goog.require('tube.models.Video');
-goog.require('tube.widgets.templates.itemListItem.itemListItem');
-goog.require('zb.html');
-goog.require('zb.ui.widgets.BaseListItem');
+import {In, Out, render} from 'generated/cutejs/tt/widgets/item-list/item-list-item.jst';
+import BaseListItem from 'ui/widgets/base-list/base-list-item';
+import * as html from 'zb/html';
+import Category from '../../models/category';
+import Video from '../../models/video';
 
 
-tube.widgets.ItemListItem = class extends zb.ui.widgets.BaseListItem {
+export default class ItemListItem extends BaseListItem {
 	/**
 	 * @override
 	 */
 	_createContainer() {
-		const data = /** @type {tube.models.Category|tube.models.Video} */ (this._data);
-		const type = data instanceof tube.models.Category ? 'category' : 'video';
-		const exported = tube.widgets.templates.itemListItem.itemListItem({
+		const data = /** @type {Category|Video} */ (this._data);
+		const type = data instanceof Category ? 'category' : 'video';
+		const exported = render({
 			type: type,
 			title: data.title,
 			coverUrl: data.coverUrl,
@@ -21,7 +20,7 @@ tube.widgets.ItemListItem = class extends zb.ui.widgets.BaseListItem {
 			views: data.views ? this._formatViews(data.views) : undefined
 		});
 
-		this._container = zb.html.findFirstElementNode(exported.root);
+		this._container = html.findFirstElementNode(exported.root);
 	}
 
 	/**

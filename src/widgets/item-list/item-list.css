@@ -1,6 +1,10 @@
 /* ItemList widget
 *******************************/
 
+.w-zbui-base-list__slider {
+	transition: top 0.5s;
+}
+
 .w-item-list {}
 	.w-item-list .w-zbui-base-list__wrap {
 		height: 560px;
@@ -16,4 +20,9 @@
 		width: 310px;
 		height: 280px;
 		float: left;
+	}
+	.w-item-list .w-item-list-item._video {
+		width: 300px;
+		height: 430px;
+		margin-right: 10px;
 	}

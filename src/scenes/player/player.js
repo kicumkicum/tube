@@ -1,25 +1,26 @@
-goog.provide('tube.scenes.Player');
-goog.require('tube.popups.Simple');
-goog.require('tube.scenes.PlayerOsd');
-goog.require('tube.scenes.templates.player.PlayerOut');
-goog.require('tube.scenes.templates.player.player');
-goog.require('tube.services.Player');
-goog.require('tube.widgets.helpBarItemFactory');
-goog.require('zb.device.IVideo');
-goog.require('zb.device.input.Keys');
-goog.require('zb.html');
-goog.require('zb.layers.CuteScene');
-goog.require('zb.ui.widgets.HelpBarItem');
-goog.require('zb.ui.limit');
+import CuteScene from 'cutejs/layers/abstract-scene';
+import {In, Out, render} from 'generated/cutejs/tt/scenes/player/player.jst';
+import {helpBarItemFactory} from '../../widgets/help-bar/help-bar-item-factory';
+import IVideo, {State} from 'zb/device/interfaces/i-video';
+import Keys from 'zb/device/input/keys';
 
+import * as html from 'zb/html';
+import HelpBar from "ui/widgets/help-bar/help-bar-item";
+import * as limit from 'ui/limit'
+import PlayerService from '../../services/player';
+import PlayerOsd from './player-osd';
+import Simple from '../../popups/simple/simple';
 
-tube.scenes.Player = class extends zb.layers.CuteScene {
+IVideo.State = State;
+
+export default class Player extends CuteScene {
 	/**
 	 * @override
 	 */
-	constructor() {
+	constructor(app) {
 		super();
 
+		this._app = app;
 		/**
 		 * @const {number}
 		 */
@@ -85,7 +86,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 		this._onError = this._onError.bind(this);
 
 		this._onMoveOrClick = this._onMoveOrClick.bind(this);
-		this._onMoveOrClickTrottled = zb.ui.limit.throttle(this._onMoveOrClick, this.MOVE_OR_CLICK_DELAY);
+		this._onMoveOrClickTrottled = limit.throttle(this._onMoveOrClick, this.MOVE_OR_CLICK_DELAY);
 	}
 
 	/**
@@ -96,7 +97,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 
 		this.activateWidget(this._exported.progress);
 
-		this._setPlayer(app.services.player);
+		this._setPlayer(this._app.services.player);
 
 		this._osd.beforeDOMShow();
 
@@ -122,7 +123,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 * @override
 	 */
 	processKey(zbKey, e) {
-		if (app.services.player.processKey(zbKey)) {
+		if (this._app.services.player.processKey(zbKey)) {
 			return true;
 		}
 
@@ -143,7 +144,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 * @param {string} url
 	 */
 	setData(title, url) {
-		zb.html.text(this._exported.title, title);
+		html.text(this._exported.title, title);
 		this._player.play(url);
 	}
 
@@ -151,7 +152,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 * @override
 	 */
 	_renderTemplate() {
-		return tube.scenes.templates.player.player(this._getTemplateData(), this._getTemplateOptions());
+		return render(this._getTemplateData(), this._getTemplateOptions());
 	}
 
 	/**
@@ -159,7 +160,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 */
 	_processKey(zbKey, opt_e) {
 		let isHandled = false;
-		const keys = zb.device.input.Keys;
+		const keys = Keys;
 
 		switch (zbKey) {
 			case keys.REW:
@@ -178,28 +179,30 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 */
 	_initHelpBar() {
 		this._exported.helpBar.setOrder([
-			zb.device.input.Keys.PLAY,
-			zb.device.input.Keys.PAUSE,
-			zb.device.input.Keys.RED,
-			zb.device.input.Keys.GREEN,
-			zb.device.input.Keys.YELLOW,
-			zb.device.input.Keys.BLUE,
-			zb.device.input.Keys.BACK
+			Keys.PLAY,
+			Keys.PAUSE,
+			Keys.RED,
+			Keys.GREEN,
+			Keys.YELLOW,
+			Keys.BLUE,
+			Keys.BACK
 		]);
 
-		this._helpBarItemPlay = tube.widgets.helpBarItemFactory.play('Play', () => {
+		this._helpBarItemPlay = helpBarItemFactory.play('Play', () => {
 			this._player.resume();
 		});
 
-		this._helpBarItemPause = tube.widgets.helpBarItemFactory.pause('Pause', () => {
+		this._helpBarItemPause = helpBarItemFactory.pause('Pause', () => {
 			this._player.pause();
 		});
 
-		this._helpBarItemAspectRatio = tube.widgets.helpBarItemFactory.red('Aspect ratio', () => {
+		this._helpBarItemAspectRatio = helpBarItemFactory.red('Aspect ratio', () => {
 			this._player.toggleAspectRatio();
 		});
 
-		const helpBarItemBack = tube.widgets.helpBarItemFactory.back('Back');
+		const helpBarItemBack = helpBarItemFactory.back('Back', () => {
+			this._app.back();
+		});
 
 		this._exported.helpBar.setItems([
 			this._helpBarItemPlay,
@@ -213,7 +216,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 * @private
 	 */
 	_initOsd() {
-		this._osd = new tube.scenes.PlayerOsd({
+		this._osd = new PlayerOsd({
 			title: this._exported.title,
 			shadow: this._exported.shadow,
 			progress: this._exported.progress,
@@ -227,7 +230,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 * @private
 	 */
 	_setPlayer(player) {
-		app.services.player.setVisible(!!player);
+		this._app.services.player.setVisible(!!player);
 
 		this._osd.setPlayer(player);
 		this._exported.progress.setPlayer(player);
@@ -256,14 +259,14 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 */
 	_updateHelpBar(state) {
 		switch (state) {
-			case zb.device.IVideo.State.PLAYING:
-			case zb.device.IVideo.State.BUFFERING:
+			case IVideo.State.PLAYING:
+			case IVideo.State.BUFFERING:
 				this._helpBarItemPlay.hide();
 				this._helpBarItemPause.show();
 				this._helpBarItemAspectRatio.show();
 				break;
-			case zb.device.IVideo.State.PAUSED:
-			case zb.device.IVideo.State.SEEKING:
+			case IVideo.State.PAUSED:
+			case IVideo.State.SEEKING:
 				this._helpBarItemPlay.show();
 				this._helpBarItemPause.hide();
 				this._helpBarItemAspectRatio.show();
@@ -283,7 +286,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 	 */
 	_onOsdStateChanged(eventName, newState, oldState) {
 		switch (newState) {
-			case tube.scenes.PlayerOsd.State.CONTROLS:
+			case PlayerOsd.State.CONTROLS:
 				this.activateWidget(this._exported.progress);
 				break;
 		}
@@ -317,7 +320,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 				this._bufferingPromiseResolve = null;
 			});
 
-		app.services.throbber.wait(promise);
+		this._app.services.throbber.wait(promise);
 	}
 
 	/**
@@ -334,7 +337,7 @@ tube.scenes.Player = class extends zb.layers.CuteScene {
 		message = message.replace(/-/ig, ' ');
 		message = message.charAt(0).toUpperCase() + message.slice(1);
 
-		tube.popups.Simple.alert(['Error'], undefined, [message]);
+		Simple.alert(['Error'], undefined, [message]);
 	}
 
 	/**

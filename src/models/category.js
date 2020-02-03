@@ -1,7 +1,4 @@
-goog.provide('tube.models.Category');
-
-
-tube.models.Category = class {
+export default class Category {
 	/**
 	 * @param {tube.models.Category.Data} data
 	 */
@@ -28,8 +25,8 @@ tube.models.Category = class {
  * @param {tube.models.Category.Data} data
  * @return {tube.models.Category}
  */
-tube.models.Category.fromData = function(data) {
-	return new tube.models.Category(data);
+Category.fromData = function(data) {
+	return new Category(data);
 };
 
 
@@ -37,8 +34,8 @@ tube.models.Category.fromData = function(data) {
  * @param {Array<tube.models.Category.Data>} dataArray
  * @return {Array<tube.models.Category>}
  */
-tube.models.Category.fromDataArray = function(dataArray) {
-	return dataArray.map(tube.models.Category.fromData);
+Category.fromDataArray = function(dataArray) {
+	return dataArray.map(Category.fromData);
 };
 
 
@@ -49,4 +46,4 @@ tube.models.Category.fromDataArray = function(dataArray) {
  *     coverUrl: (string|undefined)
  * }}
  */
-tube.models.Category.Data;
+Category.Data;

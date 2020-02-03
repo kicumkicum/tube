@@ -1,14 +1,13 @@
-goog.provide('tube.widgets.ItemList');
-goog.require('tube.widgets.ItemListItem');
-goog.require('zb.ui.widgets.BaseList');
+import BaseList from 'ui/widgets/base-list/base-list';
+import ItemListItem from './item-list-item';
 
 
-tube.widgets.ItemList = class extends zb.ui.widgets.BaseList {
+export default class ItemList extends BaseList {
 	/**
 	 */
 	constructor() {
 		super({
-			itemClass: tube.widgets.ItemListItem,
+			itemClass: ItemListItem,
 			isVertical: true,
 			options: {
 				padding: 3,

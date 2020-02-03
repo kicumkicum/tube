@@ -1,12 +1,9 @@
-goog.provide('tube.popups.Simple');
-goog.require('tube.popups.Base');
-goog.require('tube.popups.templates.simple.SimpleIn');
-goog.require('tube.popups.templates.simple.SimpleOut');
-goog.require('tube.popups.templates.simple.simple');
-goog.require('zb.layers.Layer');
+import Base from '../base/base';
+import * as template from 'generated/cutejs/tt/popups/simple/simple.jst';
+import Layer from 'zb/layers/layer';
 
 
-tube.popups.Simple = class extends tube.popups.Base {
+export default class Simple extends Base {
 	/**
 	 * @override
 	 */
@@ -15,21 +12,21 @@ tube.popups.Simple = class extends tube.popups.Base {
 
 		/**
 		 * @type {
-		 *     function(tube.popups.templates.simple.SimpleIn, cuteJS.TemplateOptions):
-		 *     tube.popups.templates.simple.SimpleOut
+		 *     function(template.In, cuteJS.TemplateOptions):
+		 *     template.Out
 		 * }
 		 * @protected
 		 */
-		this._template = tube.popups.templates.simple.simple;
+		this._template = template.render;
 
 		/**
-		 * @type {tube.popups.templates.simple.SimpleIn}
+		 * @type {templates.simple.SimpleIn}
 		 * @protected
 		 */
 		this._templateIn = params;
 
 		/**
-		 * @type {tube.popups.templates.simple.SimpleOut}
+		 * @type {templates.simple.SimpleOut}
 		 * @protected
 		 */
 		this._templateOut;
@@ -49,12 +46,12 @@ tube.popups.Simple = class extends tube.popups.Base {
 	}
 
 	/**
-	 * @param {tube.popups.Simple.Input} params
+	 * @param {Simple.Input} params
 	 * @param {zb.layers.Layer=} opt_layer
-	 * @return {tube.popups.Simple}
+	 * @return {Simple}
 	 */
 	static open(params, opt_layer) {
-		const popup = new tube.popups.Simple(params);
+		const popup = new Simple(params);
 		popup.render();
 
 		(opt_layer || app).showChildLayerInstance(popup);
@@ -63,15 +60,15 @@ tube.popups.Simple = class extends tube.popups.Base {
 	}
 
 	/**
-	 * @param {tube.popups.Simple.Input} params
+	 * @param {Simple.Input} params
 	 * @param {zb.layers.Layer=} opt_layer
-	 * @param {tube.popups.Base.StatusHandler=} opt_statusHandler
-	 * @return {IThenable<tube.popups.Base.Status>}
+	 * @param {Base.StatusHandler=} opt_statusHandler
+	 * @return {IThenable<Base.Status>}
 	 */
 	static asPromise(params, opt_layer, opt_statusHandler) {
-		const popup = tube.popups.Simple.open(params, opt_layer);
+		const popup = Simple.open(params, opt_layer);
 
-		return /** @type {IThenable<tube.popups.Base.Status>} */ (popup.toPromise(opt_statusHandler));
+		return /** @type {IThenable<Base.Status>} */ (popup.toPromise(opt_statusHandler));
 	}
 
 	/**
@@ -79,20 +76,20 @@ tube.popups.Simple = class extends tube.popups.Base {
 	 * @param {string=} opt_okTitle
 	 * @param {Array<string>=} opt_message
 	 * @param {zb.layers.Layer=} opt_layer
-	 * @return {IThenable<tube.popups.Base.Status>}
+	 * @return {IThenable<Base.Status>}
 	 */
 	static alert(title, opt_okTitle, opt_message, opt_layer) {
-		/** @type {tube.popups.Simple.Input} */
+		/** @type {Simple.Input} */
 		const params = {
 			title: title,
 			message: opt_message,
 			buttons: [{
 				title: opt_okTitle || 'OK',
-				status: tube.popups.Base.Status.SUCCEEDED
+				status: Base.Status.SUCCEEDED
 			}]
 		};
 
-		return tube.popups.Simple.asPromise(params, opt_layer);
+		return Simple.asPromise(params, opt_layer);
 	}
 
 	/**
@@ -101,23 +98,23 @@ tube.popups.Simple = class extends tube.popups.Base {
 	 * @param {string=} opt_noTitle
 	 * @param {Array<string>=} opt_message
 	 * @param {zb.layers.Layer=} opt_layer
-	 * @return {IThenable<tube.popups.Base.Status>}
+	 * @return {IThenable<Base.Status>}
 	 */
 	static confirm(title, opt_yesTitle, opt_noTitle, opt_message, opt_layer) {
-		/** @type {tube.popups.Simple.Input} */
+		/** @type {Simple.Input} */
 		const params = {
 			title: title,
 			message: opt_message,
 			buttons: [{
 				title: opt_yesTitle || 'Yes',
-				status: tube.popups.Base.Status.SUCCEEDED
+				status: Base.Status.SUCCEEDED
 			}, {
 				title: opt_noTitle || 'No',
-				status: tube.popups.Base.Status.CANCELLED
+				status: Base.Status.CANCELLED
 			}]
 		};
 
-		return tube.popups.Simple.asPromise(params, opt_layer);
+		return Simple.asPromise(params, opt_layer);
 	}
 };
 
@@ -125,17 +122,17 @@ tube.popups.Simple = class extends tube.popups.Base {
 /**
  * @typedef {{
  *     title: string,
- *     status: tube.popups.Base.Status
+ *     status: Base.Status
  * }}
  */
-tube.popups.Simple.Button;
+Simple.Button;
 
 
 /**
  * @typedef {{
  *     title: Array<string>,
  *     message: (Array<string>|undefined),
- *     buttons: Array<tube.popups.Simple.Button>
+ *     buttons: Array<Simple.Button>
  * }}
  */
-tube.popups.Simple.Input;
+Simple.Input;
