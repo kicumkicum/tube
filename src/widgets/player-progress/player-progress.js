@@ -225,7 +225,7 @@ export default class PlayerProgress extends BasePlayerProgress {
 	 * @private
 	 */
 	_blockInput() {
-		this._inputBlockId = app.device.input.block();
+		this._inputBlockId = window.app.device.input.block();
 	}
 
 	/**
@@ -233,7 +233,7 @@ export default class PlayerProgress extends BasePlayerProgress {
 	 */
 	_unblockInput() {
 		if (this._isInputBlocked()) {
-			app.device.input.unblock(this._inputBlockId);
+			window.app.device.input.unblock(this._inputBlockId);
 			this._inputBlockId = NaN;
 		}
 	}

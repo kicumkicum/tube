@@ -29,7 +29,7 @@
 			<div class="p-simple__foot">
 				<div class="p-simple__buttons">
 					{{ this.buttons.forEach((button) => { }}
-						<div data-component="{{% Button, {status: button.status}, buttons[] }}">
+						<div data-component="{{% Simple.Button, {status: button.status}, buttons[] }}">
 							{{- button.title }}
 						</div>
 					{{ }); }}

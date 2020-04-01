@@ -54,7 +54,7 @@ export default class Simple extends Base {
 		const popup = new Simple(params);
 		popup.render();
 
-		(opt_layer || app).showChildLayerInstance(popup);
+		(opt_layer || window.app).showChildLayerInstance(popup);
 
 		return popup;
 	}

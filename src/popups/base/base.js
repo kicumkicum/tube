@@ -32,7 +32,7 @@ export default class Base extends CutePopup {
 	 */
 	_processKey(zbKey, e) {
 		if (zbKey === Keys.BACK) {
-			this.close(tube.popups.Base.Status.CANCELLED);
+			this.close(Base.Status.CANCELLED);
 			return true;
 		}
 
@@ -56,8 +56,8 @@ export default class Base extends CutePopup {
 	 */
 	_statusHandler(status, resolve, reject) {
 		switch (status) {
-			case tube.popups.Base.Status.FAILED:
-			case tube.popups.Base.Status.CANCELLED:
+			case Base.Status.FAILED:
+			case Base.Status.CANCELLED:
 				reject(status);
 				break;
 			default:
