@@ -5,7 +5,7 @@ import IVideo, {State} from 'zb/device/interfaces/i-video';
 import Keys from 'zb/device/input/keys';
 
 import * as html from 'zb/html';
-import HelpBar from "ui/widgets/help-bar/help-bar-item";
+import HelpBarItem from "ui/widgets/help-bar/help-bar-item";
 import * as limit from 'ui/limit'
 import PlayerService from '../../services/player';
 import PlayerOsd from './player-osd';
@@ -27,19 +27,19 @@ export default class Player extends CuteScene {
 		this.MOVE_OR_CLICK_DELAY = 1 * 1000;
 
 		/**
-		 * @type {tube.scenes.templates.player.PlayerOut}
+		 * @type {Out}
 		 * @private
 		 */
 		this._exported;
 
 		/**
-		 * @type {?tube.services.Player}
+		 * @type {?PlayerService}
 		 * @private
 		 */
 		this._player;
 
 		/**
-		 * @type {tube.scenes.PlayerOsd}
+		 * @type {PlayerOsd}
 		 * @private
 		 */
 		this._osd;
@@ -57,19 +57,19 @@ export default class Player extends CuteScene {
 		this._onMoveOrClickTrottled;
 
 		/**
-		 * @type {zb.ui.widgets.HelpBarItem}
+		 * @type {HelpBarItem}
 		 * @private
 		 */
 		this._helpBarItemPlay;
 
 		/**
-		 * @type {zb.ui.widgets.HelpBarItem}
+		 * @type {HelpBarItem}
 		 * @private
 		 */
 		this._helpBarItemPause;
 
 		/**
-		 * @type {zb.ui.widgets.HelpBarItem}
+		 * @type {HelpBarItem}
 		 * @private
 		 */
 		this._helpBarItemAspectRatio;
@@ -226,7 +226,7 @@ export default class Player extends CuteScene {
 	}
 
 	/**
-	 * @param {?tube.services.Player} player
+	 * @param {?PlayerService} player
 	 * @private
 	 */
 	_setPlayer(player) {
@@ -254,7 +254,7 @@ export default class Player extends CuteScene {
 	}
 
 	/**
-	 * @param {zb.device.IVideo.State} state
+	 * @param {IVideo.State} state
 	 * @private
 	 */
 	_updateHelpBar(state) {
@@ -280,8 +280,8 @@ export default class Player extends CuteScene {
 
 	/**
 	 * @param {string} eventName
-	 * @param {tube.scenes.PlayerOsd.State|null} newState
-	 * @param {tube.scenes.PlayerOsd.State|null} oldState
+	 * @param {PlayerOsd.State|null} newState
+	 * @param {PlayerOsd.State|null} oldState
 	 * @private
 	 */
 	_onOsdStateChanged(eventName, newState, oldState) {
@@ -294,7 +294,7 @@ export default class Player extends CuteScene {
 
 	/**
 	 * @param {string} eventName
-	 * @param {zb.device.IVideo.State} newState
+	 * @param {IVideo.State} newState
 	 * @private
 	 */
 	_onStateChange(eventName, newState) {

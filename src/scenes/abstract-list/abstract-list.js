@@ -30,7 +30,7 @@ export default class AbstractList extends AbstractCuteScene {
 		this._title = '';
 
 		/**
-		 * @type {?zb.ui.data.DynamicList}
+		 * @type {?DynamicList}
 		 * @protected
 		 */
 		this._dataList = null;
@@ -61,7 +61,7 @@ export default class AbstractList extends AbstractCuteScene {
 	}
 
 	/**
-	 * @param {zb.ui.data.DynamicList} dataList
+	 * @param {DynamicList} dataList
 	 */
 	setDataList(dataList) {
 		this._dataList = dataList;

@@ -1,9 +1,9 @@
 import Keys from 'zb/device/input/keys';
-import HelpBarItem from "ui/widgets/help-bar/help-bar-item";
+import HelpBarItem, {Options} from "ui/widgets/help-bar/help-bar-item";
 
 export const helpBarItemFactory = {
   /**
-   * @param {HelpBarItem.Options} options
+   * @param {Options} options
    * @param {function()=} opt_callback
    * @return {HelpBarItem}
    */

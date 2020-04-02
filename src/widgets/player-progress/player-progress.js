@@ -22,7 +22,7 @@ export default class PlayerProgress extends BasePlayerProgress {
 		this.SEEK_STEP = 30 * 1000;
 
 		/**
-		 * @type {tube.widgets.templates.playerProgress.PlayerProgressOut}
+		 * @type {Out}
 		 * @private
 		 */
 		this._exported;

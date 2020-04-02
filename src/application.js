@@ -22,6 +22,15 @@ export default class Application extends BaseApplication {
       popcorn: api.popcorn,
     };
 
+    /**
+     * @type {{
+     *    navigation: Navigation,
+     *    player: PlayerService,
+     *    throbber: Throbber
+     * }}
+     */
+    this.services;
+
     window.app = this;
 	}
 

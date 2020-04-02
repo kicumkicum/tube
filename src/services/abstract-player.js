@@ -1,4 +1,4 @@
-import IVideo from 'zb/device/interfaces/i-video';
+import IVideo, {State} from 'zb/device/interfaces/i-video';
 import EventPublisher from 'zb/events/event-publisher';
 
 
@@ -136,7 +136,7 @@ export default class AbstractPlayer extends EventPublisher {
 	 * @override
 	 */
 	forward() {
-		this._player.forward();
+		return this._player.forward();
 	}
 
 	/**
@@ -360,8 +360,8 @@ export default class AbstractPlayer extends EventPublisher {
 
 	/**
 	 * @param {string} eventName
-	 * @param {IVideo.State} newState
-	 * @param {IVideo.State} oldState
+	 * @param {State} newState
+	 * @param {State} oldState
 	 * @private
 	 */
 	_onStateChange(eventName, newState, oldState) {

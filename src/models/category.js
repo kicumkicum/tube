@@ -1,6 +1,6 @@
 export default class Category {
 	/**
-	 * @param {tube.models.Category.Data} data
+	 * @param {Category.Data} data
 	 */
 	constructor(data) {
 		/**
@@ -22,8 +22,8 @@ export default class Category {
 
 
 /**
- * @param {tube.models.Category.Data} data
- * @return {tube.models.Category}
+ * @param {Category.Data} data
+ * @return {Category}
  */
 Category.fromData = function(data) {
 	return new Category(data);
@@ -31,8 +31,8 @@ Category.fromData = function(data) {
 
 
 /**
- * @param {Array<tube.models.Category.Data>} dataArray
- * @return {Array<tube.models.Category>}
+ * @param {Array<Category.Data>} dataArray
+ * @return {Array<Category>}
  */
 Category.fromDataArray = function(dataArray) {
 	return dataArray.map(Category.fromData);

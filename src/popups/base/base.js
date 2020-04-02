@@ -12,7 +12,7 @@ export default class Base extends CutePopup {
 	}
 
 	/**
-	 * @param {tube.popups.Base.StatusHandler=} opt_statusHandler
+	 * @param {Base.StatusHandler=} opt_statusHandler
 	 * @return {IThenable<*>}
 	 */
 	toPromise(opt_statusHandler) {

@@ -1,6 +1,6 @@
 import AbstractPlayer from './abstract-player';
-import 'zb/device/interfaces/i-device';
-import IVideo from 'zb/device/interfaces/i-video';
+import IDevice from 'zb/device/interfaces/i-device';
+import IVideo, {State} from 'zb/device/interfaces/i-video';
 import IViewPort from 'zb/device/interfaces/i-view-port';
 import {AspectRatio, Transferring} from 'zb/device/aspect-ratio/aspect-ratio';
 import {Common} from 'zb/device/aspect-ratio/proportion';
@@ -10,7 +10,7 @@ import Rect from 'zb/geometry/rect';
 export default class Player extends AbstractPlayer {
 	/**
 	 * @param {tube.Application} app
-	 * @param {zb.device.IDevice} device
+	 * @param {IDevice} device
 	 */
 	constructor(app, device) {
 		const player = device.createVideo(Rect.createByClientRect(app.getBody().getBoundingClientRect()));
@@ -23,14 +23,14 @@ export default class Player extends AbstractPlayer {
 		this._app = app;
 
 		/**
-		 * @type {zb.device.IViewPort}
+		 * @type {IViewPort}
 		 * @private
 		 */
 		this._viewport = player.getViewport();
 		this._viewport.setFullScreen(true);
 
 		/**
-		 * @type {Array<zb.device.aspectRatio.AspectRatio>}
+		 * @type {Array<AspectRatio>}
 		 * @private
 		 */
 		this._aspectRatioList = this._createAspectRatioList();
@@ -66,7 +66,7 @@ export default class Player extends AbstractPlayer {
 	}
 
 	/**
-	 * @param {zb.device.input.Keys} zbKey
+	 * @param {Keys} zbKey
 	 * @param {(KeyboardEvent|WheelEvent)=} opt_e
 	 * @return {boolean}
 	 */
@@ -94,12 +94,12 @@ export default class Player extends AbstractPlayer {
 	 */
 	togglePlayPause() {
 		switch (this.getState()) {
-			case IVideo.State.PAUSED:
-			case IVideo.State.STOPPED:
+			case State.PAUSED:
+			case State.STOPPED:
 				this.resume();
 				break;
-			case IVideo.State.PLAYING:
-			case IVideo.State.SEEKING:
+			case State.PLAYING:
+			case State.SEEKING:
 				this.pause();
 				break;
 		}
@@ -108,13 +108,13 @@ export default class Player extends AbstractPlayer {
 	/**
 	 */
 	toggleAspectRatio() {
-		if (this._viewport.hasFeatureAspectRatio()) {
+		if (this._viewport.hasAspectRatioFeature()) {
 			this._viewport.toggleAspectRatio(this._aspectRatioList);
 		}
 	}
 
 	/**
-	 * @return {Array<zb.device.aspectRatio.AspectRatio>}
+	 * @return {Array<AspectRatio>}
 	 * @private
 	 */
 	_createAspectRatioList() {

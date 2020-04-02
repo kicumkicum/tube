@@ -4,17 +4,17 @@ import Widget from 'zb/widgets/widget';
 
 export default class StateManager {
 	/**
-	 * @param {Array<tube.services.StateManager.Item>} itemList
+	 * @param {Array<StateManager.Item>} itemList
 	 */
 	constructor(itemList) {
 		/**
-		 * @type {Array<tube.services.StateManager.Item>}
+		 * @type {Array<StateManager.Item>}
 		 * @private
 		 */
 		this._itemList = itemList;
 
 		/**
-		 * @type {Object<string, Array<tube.services.StateManager.Item>>}
+		 * @type {Object<string, Array<StateManager.Item>>}
 		 * @private
 		 */
 		this._stateMap = {};
@@ -28,7 +28,7 @@ export default class StateManager {
 
 	/**
 	 * @param {string} state
-	 * @param {Array<tube.services.StateManager.Item>} visibleItemList
+	 * @param {Array<StateManager.Item>} visibleItemList
 	 */
 	registerState(state, visibleItemList) {
 		if (this.isStateRegistered(state)) {
@@ -66,7 +66,7 @@ export default class StateManager {
 	}
 
 	/**
-	 * @param {tube.services.StateManager.Item} item
+	 * @param {StateManager.Item} item
 	 * @param {boolean} isItemVisible
 	 * @private
 	 */

@@ -25,4 +25,12 @@ export default class Transport {
 			.send(url, {method: http.Method.GET, query})
 			.then((xhr) => JSON.parse(xhr.responseText));
 	}
+
+  /**
+   * @param {string} query
+   * @return {string}
+   */
+	createUrl(query) {
+		return `${this._transport._baseUrl}${query}`;
+	}
 };

@@ -1,17 +1,18 @@
 import Transport from './transport';
-import Category from '../../models/category'
-import Video from '../../models/video'
+import Category from '../../models/category';
+import Video from '../../models/video';
+import IVideo from '../i-video';
 
 
 /**
- * @implements {tube.api.IVideo}
+ * @implements {IVideo}
  */
 export default class PopcornVideo {
 	/**
 	 */
 	constructor() {
 		/**
-		 * @type {tube.api.popcorn.Transport}
+		 * @type {Transport}
 		 * @private
 		 */
 		this._transport = new Transport();
@@ -106,7 +107,7 @@ export default class PopcornVideo {
             return Promise.resolve()
               .then(() => {
                 return this._transport
-                  .request(`rutor/search/${video.title}`)
+                  .request(`rutor/search/${video.title}`, null)
                   .then((items) => {
                     return items[0].src;
                   });
@@ -179,7 +180,7 @@ export default class PopcornVideo {
 		// const hash = `1b66a51bec5defc0147b9df468a2add8e0987052`;
 
     return this._transport
-      .request(`getMetadata/${hash}`)
+      .request(`getMetadata/${hash}`, null)
       .then((response) => {
         const files = response['files'];
         const file = files.find((it) => it.path.endsWith(`.mp4`) || it.path.endsWith(`.mkv`));
@@ -187,13 +188,12 @@ export default class PopcornVideo {
         	return Promise.reject();
 				}
 
-        return `${this._transport._baseUrl}download2/${hash}/${encodeURIComponent(file.path)}`
+        return this._transport
+					.createUrl(`download2/${hash}/${encodeURIComponent(file.path)}`);
       });
-    //
-		return Promise.resolve(`http://vs.ifaced.ru/streams/bbb/bbb.mp4`);
-		return this._transport
-			.request(`load/${encodeURIComponent(magnet)}`, {})
-			.then((response) => response['url']);
+    // return this._transport
+			// .request(`load/${encodeURIComponent(magnet)}`, {})
+			// .then((response) => response['url']);
 	}
 };
 

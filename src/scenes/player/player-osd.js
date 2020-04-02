@@ -10,7 +10,7 @@ import EventPublisher from 'zb/events/event-publisher';
 export default class PlayerOsd extends EventPublisher {
 	/**
 	 * @override
-	 * @param {tube.scenes.PlayerOsd.ItemMap} itemMap
+	 * @param {PlayerOsd.ItemMap} itemMap
 	 */
 	constructor(itemMap) {
 		super();
@@ -21,26 +21,26 @@ export default class PlayerOsd extends EventPublisher {
 		this.CONTROLS_SHOW_TIME = 5 * 1000;
 
 		/**
-		 * Fired with: {?tube.scenes.PlayerOsd.State} newState, {?tube.scenes.PlayerOsd.State} oldState
+		 * Fired with: {?PlayerOsd.State} newState, {?PlayerOsd.State} oldState
 		 * @const {string}
 		 */
 		this.EVENT_STATE_CHANGED = 'state-changed';
 
 		/**
-		 * @type {tube.services.StateManager}
+		 * @type {StateManager}
 		 * @private
 		 */
 		this._stateManager = this._createStateManager(itemMap);
 		this._setState(null);
 
 		/**
-		 * @type {zb.Timeout}
+		 * @type {Timeout}
 		 * @private
 		 */
 		this._controlsTimer = new Timeout(this.hideControls.bind(this), this.CONTROLS_SHOW_TIME);
 
 		/**
-		 * @type {?tube.services.Player}
+		 * @type {?Player}
 		 * @private
 		 */
 		this._player = null;
@@ -62,7 +62,7 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @param {zb.device.input.Keys} zbKey
+	 * @param {Keys} zbKey
 	 * @param {KeyboardEvent|WheelEvent=} opt_e
 	 * @return {boolean} True if Key handled, false if not
 	 */
@@ -87,7 +87,7 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @param {?tube.services.Player} player
+	 * @param {?Player} player
 	 */
 	setPlayer(player) {
 		if (this._player) {
@@ -135,8 +135,8 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @param {tube.scenes.PlayerOsd.ItemMap} itemMap
-	 * @return {tube.services.StateManager}
+	 * @param {PlayerOsd.ItemMap} itemMap
+	 * @return {StateManager}
 	 * @private
 	 */
 	_createStateManager(itemMap) {
@@ -155,7 +155,7 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @param {?tube.scenes.PlayerOsd.State} newState
+	 * @param {?PlayerOsd.State} newState
 	 * @private
 	 */
 	_setState(newState) {
@@ -186,7 +186,7 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @return {zb.device.IVideo.State|null}
+	 * @return {IVideo.State|null}
 	 * @private
 	 */
 	_getPlayerState() {
@@ -214,8 +214,8 @@ export default class PlayerOsd extends EventPublisher {
 
 	/**
 	 * @param {string} eventName
-	 * @param {tube.scenes.PlayerOsd.State|null} newState
-	 * @param {tube.scenes.PlayerOsd.State|null} oldState
+	 * @param {PlayerOsd.State|null} newState
+	 * @param {PlayerOsd.State|null} oldState
 	 * @private
 	 */
 	_onOsdStateChanged(eventName, newState, oldState) {
@@ -238,7 +238,7 @@ PlayerOsd.State = {
  * @typedef {{
  *     title: HTMLElement,
  *     shadow: HTMLElement,
- *     progress: tube.widgets.PlayerProgress,
+ *     progress: PlayerProgress,
  *     helpBar: HTMLElement
  * }}
  */

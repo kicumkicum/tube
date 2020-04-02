@@ -4,37 +4,41 @@ import LayerManager from 'zb/layer-manager';
 import SceneOpener from 'zb/scene-opener';
 import DynamicList from 'ui/data/dynamic-list';
 import Throbber from 'ui/widgets/throbber/throbber';
+import CategoryListScene from '../scenes/category-list/category-list';
+import PlayerScene from '../scenes/player/player';
+import VideoListScene from '../scenes/video-list/video-list';
+
 
 
 export default class Navigation {
 	/**
-	 * @param {tube.services.Navigation.Scenes} scenes
-	 * @param {zb.SceneOpener} opener
-	 * @param {zb.LayerManager} layerManager
-	 * @param {zb.ui.widgets.Throbber} throbber
+	 * @param {Navigation.Scenes} scenes
+	 * @param {SceneOpener} opener
+	 * @param {LayerManager} layerManager
+	 * @param {Throbber} throbber
 	 */
 	constructor(scenes, opener, layerManager, throbber, app) {
 		this._app = app;
 		/**
-		 * @type {tube.services.Navigation.Scenes}
+		 * @type {Navigation.Scenes}
 		 * @private
 		 */
 		this._scenes = scenes;
 
 		/**
-		 * @type {zb.SceneOpener}
+		 * @type {SceneOpener}
 		 * @private
 		 */
 		this._opener = opener;
 
 		/**
-		 * @type {zb.LayerManager}
+		 * @type {LayerManager}
 		 * @private
 		 */
 		this._layerManager = layerManager;
 
 		/**
-		 * @type {zb.ui.widgets.Throbber}
+		 * @type {Throbber}
 		 * @private
 		 */
 		this._throbber = throbber;
@@ -153,9 +157,9 @@ export default class Navigation {
 
 /**
  * @typedef {{
- *     categoryList: tube.scenes.CategoryList,
- *     videoList: tube.scenes.VideoList,
- *     player: tube.scenes.Player
+ *     categoryList: CategoryListScene,
+ *     videoList: VideoListScene,
+ *     player: PlayerScene
  * }}
  */
 Navigation.Scenes;

@@ -47,7 +47,7 @@ export default class Simple extends Base {
 
 	/**
 	 * @param {Simple.Input} params
-	 * @param {zb.layers.Layer=} opt_layer
+	 * @param {Layer=} opt_layer
 	 * @return {Simple}
 	 */
 	static open(params, opt_layer) {
@@ -61,7 +61,7 @@ export default class Simple extends Base {
 
 	/**
 	 * @param {Simple.Input} params
-	 * @param {zb.layers.Layer=} opt_layer
+	 * @param {Layer=} opt_layer
 	 * @param {Base.StatusHandler=} opt_statusHandler
 	 * @return {IThenable<Base.Status>}
 	 */
@@ -75,7 +75,7 @@ export default class Simple extends Base {
 	 * @param {Array<string>} title
 	 * @param {string=} opt_okTitle
 	 * @param {Array<string>=} opt_message
-	 * @param {zb.layers.Layer=} opt_layer
+	 * @param {Layer=} opt_layer
 	 * @return {IThenable<Base.Status>}
 	 */
 	static alert(title, opt_okTitle, opt_message, opt_layer) {
@@ -97,7 +97,7 @@ export default class Simple extends Base {
 	 * @param {string=} opt_yesTitle
 	 * @param {string=} opt_noTitle
 	 * @param {Array<string>=} opt_message
-	 * @param {zb.layers.Layer=} opt_layer
+	 * @param {Layer=} opt_layer
 	 * @return {IThenable<Base.Status>}
 	 */
 	static confirm(title, opt_yesTitle, opt_noTitle, opt_message, opt_layer) {
