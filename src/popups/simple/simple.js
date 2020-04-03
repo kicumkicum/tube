@@ -63,12 +63,12 @@ export default class Simple extends Base {
 	 * @param {Simple.Input} params
 	 * @param {Layer=} opt_layer
 	 * @param {Base.StatusHandler=} opt_statusHandler
-	 * @return {IThenable<Base.Status>}
+	 * @return {Promise<Base.Status>}
 	 */
 	static asPromise(params, opt_layer, opt_statusHandler) {
 		const popup = Simple.open(params, opt_layer);
 
-		return /** @type {IThenable<Base.Status>} */ (popup.toPromise(opt_statusHandler));
+		return /** @type {Promise<Base.Status>} */ (popup.toPromise(opt_statusHandler));
 	}
 
 	/**
@@ -76,7 +76,7 @@ export default class Simple extends Base {
 	 * @param {string=} opt_okTitle
 	 * @param {Array<string>=} opt_message
 	 * @param {Layer=} opt_layer
-	 * @return {IThenable<Base.Status>}
+	 * @return {Promise<Base.Status>}
 	 */
 	static alert(title, opt_okTitle, opt_message, opt_layer) {
 		/** @type {Simple.Input} */
@@ -98,7 +98,7 @@ export default class Simple extends Base {
 	 * @param {string=} opt_noTitle
 	 * @param {Array<string>=} opt_message
 	 * @param {Layer=} opt_layer
-	 * @return {IThenable<Base.Status>}
+	 * @return {Promise<Base.Status>}
 	 */
 	static confirm(title, opt_yesTitle, opt_noTitle, opt_message, opt_layer) {
 		/** @type {Simple.Input} */

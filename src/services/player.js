@@ -1,15 +1,16 @@
 import AbstractPlayer from './abstract-player';
 import IDevice from 'zb/device/interfaces/i-device';
-import IVideo, {State} from 'zb/device/interfaces/i-video';
+import {State} from 'zb/device/interfaces/i-video';
 import IViewPort from 'zb/device/interfaces/i-view-port';
 import {AspectRatio, Transferring} from 'zb/device/aspect-ratio/aspect-ratio';
 import {Common} from 'zb/device/aspect-ratio/proportion';
 import Keys from 'zb/device/input/keys';
 import Rect from 'zb/geometry/rect';
+import Application from '../application';
 
 export default class Player extends AbstractPlayer {
 	/**
-	 * @param {tube.Application} app
+	 * @param {Application} app
 	 * @param {IDevice} device
 	 */
 	constructor(app, device) {
@@ -17,7 +18,7 @@ export default class Player extends AbstractPlayer {
 		super(player);
 
 		/**
-		 * @type {tube.Application}
+		 * @type {Application}
 		 * @private
 		 */
 		this._app = app;
@@ -134,7 +135,7 @@ export default class Player extends AbstractPlayer {
 	 * @private
 	 */
 	_volumeDown() {
-		if (this._app.isDeviceSamsung()) {
+		if (this._isDeviceSamsung()) {
 			return false;
 		}
 
@@ -147,7 +148,7 @@ export default class Player extends AbstractPlayer {
 	 * @private
 	 */
 	_volumeUp() {
-		if (this._app.isDeviceSamsung()) {
+		if (this._isDeviceSamsung()) {
 			return false;
 		}
 
@@ -160,11 +161,15 @@ export default class Player extends AbstractPlayer {
 	 * @private
 	 */
 	_toggleMuted() {
-		if (this._app.isDeviceSamsung()) {
+		if (this._isDeviceSamsung()) {
 			return false;
 		}
 
 		this.setMuted(!this.getMuted());
 		return true;
+	}
+
+	_isDeviceSamsung() {
+		return this._app.isDevice('samsung');
 	}
 };

@@ -29,7 +29,7 @@ export default class PopcornVideo {
 	 */
 	getCategoryList() {
 		if (this._categoryList.length) {
-			return /** @type {IThenable<Array<Category>>} */ (Promise.resolve(this._categoryList));
+			return /** @type {Promise<Array<Category>>} */ (Promise.resolve(this._categoryList));
 		}
 
 		const categoryArray = [
@@ -76,7 +76,7 @@ export default class PopcornVideo {
 			});
 		});
 
-		return /** @type {IThenable<Array<Category>>} */ (Promise.resolve(this._categoryList));
+		return /** @type {Promise<Array<Category>>} */ (Promise.resolve(this._categoryList));
 	}
 
 	/**
@@ -130,7 +130,7 @@ export default class PopcornVideo {
 	/**
 	 * @param {number} page
 	 * @param {string} categoryId
-	 * @return {IThenable<Array<Object>>}
+	 * @return {Promise<Array<Object>>}
 	 * @private
 	 */
 	_getVideoListPage(page, categoryId) {
@@ -158,7 +158,7 @@ export default class PopcornVideo {
 
 	/**
 	 * @param {string} magnet
-	 * @return {IThenable<string>}
+	 * @return {Promise<string>}
 	 * @private
 	 */
 	_getVideoUrl(magnet) {

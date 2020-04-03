@@ -41,7 +41,7 @@ export default class Video {
 		this._extendFunction = extendFunction;
 
 		/**
-		 * @type {?IThenable<{
+		 * @type {?Promise<{
 		 *     videoUrl: string
 		 * }>}
 		 * @private
@@ -100,7 +100,7 @@ Video.Data;
 
 
 /**
- * @typedef {function(): IThenable<{
+ * @typedef {function(): Promise<{
  *     videoUrl: string
  * }>}
  */

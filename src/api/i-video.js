@@ -9,7 +9,7 @@ export default class IVideo {
 	/**
 	 * @param {number} offset
 	 * @param {number} limit
-	 * @return {IThenable<Array<Category>>}
+	 * @return {Promise<Array<Category>>}
 	 */
 	getCategoryList(offset, limit) {}
 
@@ -17,7 +17,7 @@ export default class IVideo {
 	 * @param {Category} category
 	 * @param {number} offset
 	 * @param {number} limit
-	 * @return {IThenable<Array<Video>>}
+	 * @return {Promise<Array<Video>>}
 	 */
 	getVideoList(category, offset, limit) {}
 };

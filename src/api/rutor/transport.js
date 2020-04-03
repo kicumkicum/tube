@@ -16,7 +16,7 @@ export default class Transport {
 	/**
 	 * @param {string} action
 	 * @param {Object} query GET params
-	 * @return {IThenable<Object>}
+	 * @return {Promise<Object>}
 	 */
 	request(action, query) {
 		const url = this._baseUrl + action;

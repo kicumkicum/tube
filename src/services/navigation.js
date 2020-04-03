@@ -45,7 +45,7 @@ export default class Navigation {
 	}
 
 	/**
-	 * @return {IThenable}
+	 * @return {Promise}
 	 */
 	openHome() {
 		const currentLayer = this._layerManager.getCurrentLayer();
@@ -58,7 +58,7 @@ export default class Navigation {
 
 	/**
 	 * @param {Category} category
-	 * @return {IThenable}
+	 * @return {Promise}
 	 */
 	openVideoList(category) {
 		const dataList = new DynamicList(
@@ -89,7 +89,7 @@ export default class Navigation {
 	}
 
 	/**
-	 * @return {IThenable}
+	 * @return {Promise}
 	 */
 	openCategoryList() {
 		const dataList = new DynamicList(
@@ -141,7 +141,7 @@ export default class Navigation {
 
 	/**
 	 * @param {Promise} promise
-	 * @return {IThenable}
+	 * @return {Promise}
 	 * @private
 	 */
 	_wait(promise) {
@@ -150,7 +150,7 @@ export default class Navigation {
 			currentLayer.wait(promise);
 		}
 		this._throbber.wait(promise);
-		return /** @type {IThenable} */(promise);
+		return /** @type {Promise} */(promise);
 	}
 };
 

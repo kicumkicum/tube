@@ -66,14 +66,17 @@ export default class Application extends BaseApplication {
 	 */
 	home() {
 		this.clearHistory();
-		const homeScene = this.getLayerManager().getLayer('category-list');
 
     return this.services.navigation.openCategoryList();
-
-		return this.getSceneOpener().open(homeScene, () => {
-			// Set home scene data here
-		});
+		// const homeScene = this.getLayerManager().getLayer('category-list');
+		// return this.getSceneOpener().open(homeScene, () => {
+		// 	// Set home scene data here
+		// });
 	}
+
+	isDevice(deviceType) {
+	  return this.device.info.type() === deviceType;
+  }
 
 	/**
 	 * @override

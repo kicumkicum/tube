@@ -66,7 +66,7 @@ export default class VideoApi {
 						duration: parseInt(video['duration'], 10),
 						views: parseInt(video['views'], 10)
 					}, () => {
-						const promise = /** @type {IThenable<{videoUrl: string}>} */ (Promise.resolve({
+						const promise = /** @type {Promise<{videoUrl: string}>} */ (Promise.resolve({
 							videoUrl: videoUrl
 						}));
 						return promise;

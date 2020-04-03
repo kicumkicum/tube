@@ -13,7 +13,7 @@ export default class Base extends CutePopup {
 
 	/**
 	 * @param {Base.StatusHandler=} opt_statusHandler
-	 * @return {IThenable<*>}
+	 * @return {Promise<*>}
 	 */
 	toPromise(opt_statusHandler) {
 		return new Promise((resolve, reject) => {
