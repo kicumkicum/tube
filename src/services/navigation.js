@@ -120,7 +120,7 @@ export default class Navigation {
 
 	/**
 	 * @param {Video} video
-	 * @return {IThenable}
+	 * @return {Promise}
 	 */
 	openPlayer(video) {
 		const promise = video
@@ -140,7 +140,7 @@ export default class Navigation {
 	}
 
 	/**
-	 * @param {IThenable} promise
+	 * @param {Promise} promise
 	 * @return {IThenable}
 	 * @private
 	 */
@@ -150,7 +150,7 @@ export default class Navigation {
 			currentLayer.wait(promise);
 		}
 		this._throbber.wait(promise);
-		return promise;
+		return /** @type {IThenable} */(promise);
 	}
 };
 

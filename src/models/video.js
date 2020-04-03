@@ -50,7 +50,7 @@ export default class Video {
 	}
 
 	/**
-	 * @return {IThenable<Video>}
+	 * @return {Promise<Video>}
 	 */
 	extend() {
 		if (!this._extendPromise) {

@@ -2,7 +2,7 @@ import Player from '../../services/player';
 import StateManager from '../../services/state-manager';
 import PlayerProgress from '../../widgets/player-progress/player-progress';
 import Timeout from 'zb/timeout';
-import IVideo from 'zb/device/interfaces/i-video';
+import IVideo, {State} from 'zb/device/interfaces/i-video';
 import Keys from 'zb/device/input/keys';
 import EventPublisher from 'zb/events/event-publisher';
 
@@ -111,12 +111,12 @@ export default class PlayerOsd extends EventPublisher {
 	 */
 	showControls() {
 		switch (this._getPlayerState()) {
-			case IVideo.State.INITED:
-			case IVideo.State.UNINITED:
-			case IVideo.State.DEINITED:
-			case IVideo.State.PAUSED:
-			case IVideo.State.STOPPED:
-			case IVideo.State.ERROR:
+			case State.INITED:
+			case State.UNINITED:
+			case State.DEINITED:
+			case State.PAUSED:
+			case State.STOPPED:
+			case State.ERROR:
 			case null:
 				this._controlsTimer.stop();
 				break;
@@ -186,7 +186,7 @@ export default class PlayerOsd extends EventPublisher {
 	}
 
 	/**
-	 * @return {IVideo.State|null}
+	 * @return {State|null}
 	 * @private
 	 */
 	_getPlayerState() {
@@ -198,13 +198,13 @@ export default class PlayerOsd extends EventPublisher {
 	 */
 	_onPlayerStateChange() {
 		switch (this._getPlayerState()) {
-			case IVideo.State.INITED:
-			case IVideo.State.UNINITED:
-			case IVideo.State.DEINITED:
-			case IVideo.State.PLAYING:
-			case IVideo.State.PAUSED:
-			case IVideo.State.STOPPED:
-			case IVideo.State.ERROR:
+			case State.INITED:
+			case State.UNINITED:
+			case State.DEINITED:
+			case State.PLAYING:
+			case State.PAUSED:
+			case State.STOPPED:
+			case State.ERROR:
 				if (this._isControlsVisible() || this._isEmpty()) {
 					this.showControls();
 				}

@@ -11,7 +11,6 @@ import PlayerService from '../../services/player';
 import PlayerOsd from './player-osd';
 import Simple from '../../popups/simple/simple';
 
-IVideo.State = State;
 
 export default class Player extends CuteScene {
 	/**
@@ -28,7 +27,7 @@ export default class Player extends CuteScene {
 
 		/**
 		 * @type {Out}
-		 * @private
+		 * @protected
 		 */
 		this._exported;
 
@@ -254,19 +253,19 @@ export default class Player extends CuteScene {
 	}
 
 	/**
-	 * @param {IVideo.State} state
+	 * @param {State} state
 	 * @private
 	 */
 	_updateHelpBar(state) {
 		switch (state) {
-			case IVideo.State.PLAYING:
-			case IVideo.State.BUFFERING:
+			case State.PLAYING:
+			case State.BUFFERING:
 				this._helpBarItemPlay.hide();
 				this._helpBarItemPause.show();
 				this._helpBarItemAspectRatio.show();
 				break;
-			case IVideo.State.PAUSED:
-			case IVideo.State.SEEKING:
+			case State.PAUSED:
+			case State.SEEKING:
 				this._helpBarItemPlay.show();
 				this._helpBarItemPause.hide();
 				this._helpBarItemAspectRatio.show();
@@ -294,7 +293,7 @@ export default class Player extends CuteScene {
 
 	/**
 	 * @param {string} eventName
-	 * @param {IVideo.State} newState
+	 * @param {State} newState
 	 * @private
 	 */
 	_onStateChange(eventName, newState) {

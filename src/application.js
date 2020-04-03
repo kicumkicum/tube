@@ -48,9 +48,9 @@ export default class Application extends BaseApplication {
     const sceneOpener = this.getSceneOpener();
 
     const navigation = new Navigation({
-      categoryList: this._layerManager.getLayer(`category-list`),
-      videoList: this._layerManager.getLayer(`video-list`),
-      player: this._layerManager.getLayer(`player`)
+      categoryList: /** @type {CategoryList} */(this._layerManager.getLayer(`category-list`)),
+      videoList: /** @type {VideoList} */(this._layerManager.getLayer(`video-list`)),
+      player: /** @type {Player} */(this._layerManager.getLayer(`player`)),
     }, sceneOpener, this._layerManager,  throbber, this);
 
     this.services = {

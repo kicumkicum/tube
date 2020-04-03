@@ -31,6 +31,6 @@ export default class Transport {
    * @return {string}
    */
 	createUrl(query) {
-		return `${this._transport._baseUrl}${query}`;
+		return `${this._baseUrl}${query}`;
 	}
 };

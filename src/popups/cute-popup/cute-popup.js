@@ -1,4 +1,5 @@
 import Popup from 'zb/layers/popup';
+import {TemplateOptions} from 'cutejs-lib/cute-library';
 
 
 export default class CutePopup extends Popup {
@@ -9,7 +10,7 @@ export default class CutePopup extends Popup {
 		super();
 
 		/**
-		 * @type {?function(Object, cuteJS.TemplateOptions): Object}
+		 * @type {?function(Object, TemplateOptions): Object}
 		 * @protected
 		 */
 		this._template = null;
@@ -21,7 +22,7 @@ export default class CutePopup extends Popup {
 		this._templateIn = {};
 
 		/**
-		 * @type {cuteJS.TemplateOptions}
+		 * @type {TemplateOptions}
 		 * @protected
 		 */
 		this._templateOptions = {

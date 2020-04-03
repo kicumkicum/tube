@@ -1,6 +1,7 @@
 import Base from '../base/base';
-import * as template from 'generated/cutejs/tt/popups/simple/simple.jst';
+import {In, Out, render} from 'generated/cutejs/tt/popups/simple/simple.jst';
 import Layer from 'zb/layers/layer';
+import {TemplateOptions} from 'cutejs-lib/cute-library';
 
 
 export default class Simple extends Base {
@@ -12,21 +13,20 @@ export default class Simple extends Base {
 
 		/**
 		 * @type {
-		 *     function(template.In, cuteJS.TemplateOptions):
-		 *     template.Out
+		 *     function(In, TemplateOptions): Out
 		 * }
 		 * @protected
 		 */
-		this._template = template.render;
+		this._template = render;
 
 		/**
-		 * @type {templates.simple.SimpleIn}
+		 * @type {In}
 		 * @protected
 		 */
 		this._templateIn = params;
 
 		/**
-		 * @type {templates.simple.SimpleOut}
+		 * @type {Out}
 		 * @protected
 		 */
 		this._templateOut;

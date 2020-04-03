@@ -23,7 +23,7 @@ export default class PlayerProgress extends BasePlayerProgress {
 
 		/**
 		 * @type {Out}
-		 * @private
+		 * @protected
 		 */
 		this._exported;
 
